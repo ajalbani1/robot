@@ -41,19 +41,33 @@ header {
   ul.hor-menu {
     list-style-type: none;
     overflow: hidden;
+
     li {
       float: left;
       padding: 2px 10px;
     }
   }
 }
+
+$height: 13px;
+$width: 13px;
 .robot {
   margin: 20px;
+
   .pen {
     border: 1px solid black;
+    position: relative;
+    overflow: hidden;
     .robot {
       position: absolute;
-      :after {
+      background-color: red;
+      width: $width;
+      height: $height;
+      font-size: 10px;
+      padding: 0.2em 0.2em;
+      transform: translate(-50%, -50%);
+
+      &::before {
         content: "R";
       }
     }

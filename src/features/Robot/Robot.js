@@ -1,27 +1,62 @@
 import React, { useState } from 'react';
 import { on, off, reset, command } from './RobotApi';
 
-const Robot = (props) => {
-    let cordinates = {x: 0, y: 0};
-    const func = (x, y, crashed) => {
-        console.log(`callback ${x} ${y} ${crashed}`);
-        if(crashed) {
-            cordinates = {
-                x, y
-            };
+class Robot extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            c: {x: 0, y:0},
+            d: {width: 0, height: 0},
+            speed: 100,
+            direction: 60,
         }
+    }
+    componentDidMount() {
+        const func = (x, y, crashed) => {
+            if(!crashed) {
+                console.log(`callback ${x} ${y} ${crashed} ... `);
+                if(this.state.c.x !== x && this.state.c.y !== y) {
+                    this.setState({ ...this.state,
+                        c: {x, y}
+                    });
+                }
+            } else {
+                off(func);
+            }
+        };
+        const { width, height } = on(func);
+        this.setState({ ...this.state,
+            d: {width, height}
+        }, () => {});
+    }
+    reset = () => {
+        const { width, height } = reset();
+        this.setState({
+            ...this.state,
+            d: { width, height} ,
+            c: {x: 0, y:0},
+        })
+        ;
     };
-    command(100, 20);
-    const { width, height } = on(func);
-    console.log(on(func));
-    return (
-        <div className={`robot`}>
-            <h5>Robot</h5>
-            <div className={`pen`} style={{ width, height}}>
-                <span className={`robot`} style={{ width: cordinates.x, height: cordinates.y }}>&nbsp;</span>
+    render = () => {
+        const d = { ...this.state.d };
+        const c = { ...this.state.c };
+        const speed = this.state.speed;
+        const direction = this.state.direction;
+        return (
+            <div className={`robot`}>
+                <h5>Robot</h5>
+                <label>Speed: </label><input onChange={(e) => this.setState({ ...this.state, speed: e.target.value })} type={`number`} value={ speed } />
+                <label>Direction: </label><input onChange={(e) => this.setState({ ...this.state, direction: e.target.value })} type={`number`} value={ direction }  />
+                <button onClick={()=> command(this.state.speed, this.state.direction)}>Animate</button>
+                <br/>
+                <button onClick={ this.reset }>Reset</button>
+                <p>&nbsp;</p>
+                <div className={`pen`} style={{ width: d.width, height: d.height}}>
+                    <span className={`robot`} style={{ top: c.y, left: c.x, marginTop: d.height / 2, marginLeft: d.width / 2 }}>&nbsp;</span>
+                </div>
             </div>
-
-        </div>
-    )
-};
+        )
+    }
+}
 export default Robot;

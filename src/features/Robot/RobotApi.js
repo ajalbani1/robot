@@ -36,7 +36,6 @@ export function reset() {
   x = 0;
   y = 0;
   lastUpdate = Date.now();
-
   return { width, height };
 }
 
