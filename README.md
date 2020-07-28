@@ -1,68 +1,108 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Stop That Robot!
 
-## Available Scripts
+This challenge is to create a React frontend interface for a little 2D robot. This robot accepts a speed and direction command, and runs around its pen until it crashes into a wall.
 
-In the project directory, you can run:
+The pen is always rectangular, but its dimensions change every time the robot is reset. The size of each dimension of the pen is between 200 and 1000, which are unitless. The center of the pen is coordinates (0, 0), and +x is to the right, and +y is up on the screen. The robot is a point, and crashes when the center hits a wall. There are no other obstacles.
 
-### `npm start`
+The speed of the robot is in pen-units (ie, the units the pen dimensions are in) per second. The direction is an angle in radians, with 0 in the +x direction, and increasing counter-clockwise.
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+The entire robot and API lives in `RobotApi.js`, which uses ES6 modules and starts as soon as it is imported.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+## Provided
 
-### `npm test`
+- `RobotApi.js` - The JavaScript library that simulates the robot. Do not modify this file. API documentation is below.
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Requirements
 
-### `npm run build`
+- Solution is in React
+- Solution has two views, which you can decide how to organize:
+  - Control View
+    - Displays robot
+    - Provides control of the robot
+    - Lets user recover when robot crashes
+  - Stats View
+    - Displays the raw robot data
+    - Displays time since last crash
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Deliverables
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+Please send a zip with the following:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- Full code
+- README containing:
+  - instructions on building and running
+  - Approximately how long you spent on the challenge
+  - Any additional notes
 
-### `npm run eject`
+## Evaluation Criteria
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Besides meeting the above requirements, we will evaluate your solution on the following criteria:
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- How the solution functions, including handling any edge cases
+- The choice and implementation of the interface interactions. Note that the visual design is **NOT** part of the criteria.
+- How the solution is architected and design choices
+- Code readability
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## RobotApi Reference
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+---
 
-## Learn More
+### `RobotApi.on(listener: function)`
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Registers a listener to receive robot status updates.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+#### Parameters
 
-### Code Splitting
+##### `listener`: `function(x: number, y: number, crashed: boolean)`
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+The callback to register for robot status updates. Called periodically with the x and y positions and whether the robot has crashed.
 
-### Analyzing the Bundle Size
+#### Returns: `object(width: number, height: number)`
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+The dimensions of the current pen.
 
-### Making a Progressive Web App
+---
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+### `RobotApi.off(listener: function)`
 
-### Advanced Configuration
+Unregisters a listener from the robot status updates.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+#### Parameters
 
-### Deployment
+##### `listener`: `function(x: number, y: number, crashed: boolean)`
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+The listener to remove.
 
-### `npm run build` fails to minify
+#### Returns: None
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+---
+
+### `RobotApi.command(speed, direction)`
+
+Sends a velocity command to the robot.
+
+#### Parameters
+
+##### `speed`: `number`
+
+The commanded speed for the robot, in pen-units (ie, the units the pen dimensions are in) per second.
+
+##### `direction`: `number`
+
+The commanded angle of motion for the robot, in radians. 0 is in the +x direction and it increases counter-clockwise.
+
+#### Returns: None
+
+---
+
+### `RobotApi.reset()`
+
+#### Parameters
+
+None
+
+#### Returns: `object(width: number, height: number)`
+
+The dimensions of the new pen.
+
+---
