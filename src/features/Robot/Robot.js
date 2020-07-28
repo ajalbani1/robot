@@ -62,7 +62,7 @@ class Robot extends React.Component {
                     <button onClick={ this.reset }>Reset</button>
                     <p>&nbsp;</p>
                     <div className={`pen`} style={{ width: d.width, height: d.height}}>
-                        <span className={`robot`} style={{ top: c.y, left: c.x, marginTop: d.height / 2, marginLeft: d.width / 2 }}>&nbsp;</span>
+                        <span className={`robot`} style={{ top: c.y, left: c.x, marginTop: d.height / 2, marginLeft: d.width / 2 }}>R</span>
                     </div>
                 </div>
                 <div className={`stats`}  ref={el => { this.el = el; }}>
