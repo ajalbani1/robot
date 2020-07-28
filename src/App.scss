@@ -52,24 +52,33 @@ header {
 $height: 13px;
 $width: 13px;
 .robot {
-  margin: 20px;
+    margin: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    .map {
+        .pen {
+            border: 1px solid black;
+            position: relative;
+            overflow: hidden;
 
-  .pen {
-    border: 1px solid black;
-    position: relative;
-    overflow: hidden;
-    .robot {
-      position: absolute;
-      background-color: red;
-      width: $width;
-      height: $height;
-      font-size: 10px;
-      padding: 0.2em 0.2em;
-      transform: translate(-50%, -50%);
+                .robot {
+                    position: absolute;
+                    background-color: red;
+                    width: $width;
+                    height: $height;
+                    font-size: 10px;
+                    padding: 0.2em 0.2em;
+                    transform: translate(-50%, -50%);
 
-      &::before {
-        content: "R";
-      }
+                    &::before {
+                      content: "R";
+                    }
+                  }
+        }
     }
-  }
+    .stats {
+        height: 100vh;
+        background-color: #61dafb;
+        overflow: scroll;
+    }
 }
