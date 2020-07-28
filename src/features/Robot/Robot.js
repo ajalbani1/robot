@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import { on, off, reset, command } from './RobotApi';
+import React from 'react';
+import { on, reset, command } from './RobotApi';
 
 class Robot extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            c: {x: 0, y:0},
-            d: {width: 0, height: 0},
+            c: { x: 0, y: 0 },
+            d: { width: 0, height: 0 },
             speed: 100,
             direction: 60,
         }
@@ -20,8 +20,6 @@ class Robot extends React.Component {
                         c: {x, y}
                     });
                 }
-            } else {
-                off(func);
             }
         };
         const { width, height } = on(func);
@@ -33,7 +31,7 @@ class Robot extends React.Component {
         const { width, height } = reset();
         this.setState({
             ...this.state,
-            d: { width, height} ,
+            d: { width, height},
             c: {x: 0, y:0},
         })
         ;
