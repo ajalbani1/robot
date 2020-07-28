@@ -1,8 +1,11 @@
 # Stop That Robot!
 
-This challenge is to create a React frontend interface for a little 2D robot. This robot accepts a speed and direction command, and runs around its pen until it crashes into a wall.
+This challenge is to create a React frontend interface for a little 2D robot. This robot accepts a speed and direction 
+command, and runs around its pen until it crashes into a wall.
 
-The pen is always rectangular, but its dimensions change every time the robot is reset. The size of each dimension of the pen is between 200 and 1000, which are unitless. The center of the pen is coordinates (0, 0), and +x is to the right, and +y is up on the screen. The robot is a point, and crashes when the center hits a wall. There are no other obstacles.
+The pen is always rectangular, but its dimensions change every time the robot is reset. The size of each dimension of the
+ pen is between 200 and 1000, which are unitless. The center of the pen is coordinates (0, 0), and +x is to the right, and +y 
+ is up on the screen. The robot is a point, and crashes when the center hits a wall. There are no other obstacles.
 
 The speed of the robot is in pen-units (ie, the units the pen dimensions are in) per second. The direction is an angle in radians, with 0 in the +x direction, and increasing counter-clockwise.
 
