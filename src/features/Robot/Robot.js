@@ -25,17 +25,10 @@ class Robot extends React.Component {
     }
     func = (x, y, crashed) => {
         const stats = this.state.stats;
-        if(!crashed) {
-            console.log(`callback ${x} ${y} ${crashed} ... `);
-            if(this.state.c.x !== x && this.state.c.y !== y) {
-                this.setState({ ...this.state,
-                    c: {x, y},
-                    stats: [ ...stats, {x, y, t: 'move', d: moment().valueOf()}],
-                });
-            }
-        } else {
+        if(this.state.c.x !== x && this.state.c.y !== y) {
             this.setState({ ...this.state,
-                stats: [ ...stats, {x, y, t: 'crash', d: moment().valueOf()}],
+                c: {x, y},
+                stats: [ ...stats, {x, y, t: crashed?'crash':'move', d: moment().valueOf()}],
             });
         }
     };
@@ -73,13 +66,15 @@ class Robot extends React.Component {
                     </div>
                 </div>
                 <div className={`stats`}  ref={el => { this.el = el; }}>
+                    <h5>Stats</h5>
+
                     {
                         stats.map(s => <div className={`stat`}>
                                 <span>
                                     <b>{` ${moment(s.d).format('YYYY/MM/DD hh:mm:ss:SSS A')} `} </b>
                                     { s.t === 'move' ?
                                         `Robot moved to cordinate ${Math.ceil(s.x)} ${Math.ceil(s.y)}` :
-                                        `Robot crashed!`
+                                        <b>Robot crashed!</b>
                                     }
                                 </span>
                         </div> )
