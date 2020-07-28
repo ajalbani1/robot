@@ -2,19 +2,21 @@ import React from 'react';
 import moment from 'moment';
 import { on, reset, command, off } from './RobotApi';
 
+const INITIAL_STATE = {
+    c: { x: 0, y: 0 },
+    d: { width: 0, height: 0 },
+    speed: 100,
+    direction: 1,
+    stats: [],
+};
 class Robot extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            c: { x: 0, y: 0 },
-            d: { width: 0, height: 0 },
-            speed: 100,
-            direction: 1,
-            stats: [],
+            ...INITIAL_STATE,
         }
     }
     componentDidMount() {
-
         const { width, height } = on(this.func);
         this.setState({ ...this.state,
             d: {width, height}
@@ -57,8 +59,6 @@ class Robot extends React.Component {
 
                     <label>Direction: </label><input onChange={(e) => this.setState({ ...this.state, direction: e.target.value })} type={`number`} value={ direction }  />
                     <button onClick={()=> command(this.state.speed, this.state.direction)}>Animate</button>
-
-                    <br/>
                     <button onClick={ this.reset }>Reset</button>
                     <p>&nbsp;</p>
                     <div className={`pen`} style={{ width: d.width, height: d.height}}>
@@ -66,10 +66,10 @@ class Robot extends React.Component {
                     </div>
                 </div>
                 <div className={`stats`}  ref={el => { this.el = el; }}>
-                    <h5>Stats</h5>
-
+                    <h5 className={`head`}>Stats</h5>
+                    <div style={{ paddingTop: 20 }}>&nbsp;</div>
                     {
-                        stats.map(s => <div className={`stat`}>
+                        stats.map(s => <div className={`stat`} key={s.d}>
                                 <span>
                                     <b>{` ${moment(s.d).format('YYYY/MM/DD hh:mm:ss:SSS A')} `} </b>
                                     { s.t === 'move' ?

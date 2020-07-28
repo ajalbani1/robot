@@ -51,6 +51,7 @@ header {
 
 $height: 13px;
 $width: 13px;
+$statscolor: #61dafb;
 .robot {
     margin: 0 20px;
     display: grid;
@@ -78,10 +79,17 @@ $width: 13px;
     }
     .stats {
         height: 100vh;
-        background-color: #61dafb;
+        background-color: $statscolor;
         overflow-y: scroll;
         overscroll-behavior-y: contain;
         scroll-snap-type: y mandatory;
+        .head {
+            position: fixed;
+            background: $statscolor;
+            width: 100%;
+            top: -23px;
+            height: 20px;
+        }
         .stat {
             &:last-child {
                 scroll-snap-align: end;
