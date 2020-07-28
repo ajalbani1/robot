@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import { on, reset, command } from './RobotApi';
+import { on, reset, command, off } from './RobotApi';
 
 class Robot extends React.Component {
     constructor(props) {
@@ -14,33 +14,31 @@ class Robot extends React.Component {
         }
     }
     componentDidMount() {
-        const func = (x, y, crashed) => {
-            const stats = this.state.stats;
-            if(!crashed) {
-                console.log(`callback ${x} ${y} ${crashed} ... `);
-                if(this.state.c.x !== x && this.state.c.y !== y) {
-                    this.setState({ ...this.state,
-                        c: {x, y},
-                        stats: [ ...stats, {x, y, t: 'move', d: moment().valueOf()}],
-                    }, () => this.scrollToBottom() );
-                }
-            } else {
-                this.setState({ ...this.state,
-                    stats: [ ...stats, {x, y, t: 'crash', d: moment().valueOf()}],
-                }, () => this.scrollToBottom() );
-            }
-        };
-        const { width, height } = on(func);
+
+        const { width, height } = on(this.func);
         this.setState({ ...this.state,
             d: {width, height}
         }, () => {});
     }
-    componentDidUpdate() {
-        this.scrollToBottom();
+    componentWillUnmount() {
+        off(this.func);
     }
-    scrollToBottom = () => {
-        this.el.scrollIntoView({ behavior: 'smooth' });
-    }
+    func = (x, y, crashed) => {
+        const stats = this.state.stats;
+        if(!crashed) {
+            console.log(`callback ${x} ${y} ${crashed} ... `);
+            if(this.state.c.x !== x && this.state.c.y !== y) {
+                this.setState({ ...this.state,
+                    c: {x, y},
+                    stats: [ ...stats, {x, y, t: 'move', d: moment().valueOf()}],
+                });
+            }
+        } else {
+            this.setState({ ...this.state,
+                stats: [ ...stats, {x, y, t: 'crash', d: moment().valueOf()}],
+            });
+        }
+    };
     reset = () => {
         const { width, height } = reset();
         this.setState({
@@ -78,7 +76,7 @@ class Robot extends React.Component {
                     {
                         stats.map(s => <div className={`stat`}>
                                 <span>
-                                    <b>{` ${moment(s.d).format('YYYY/MM/DD hh:mm:ss A')} `} </b>
+                                    <b>{` ${moment(s.d).format('YYYY/MM/DD hh:mm:ss:SSS A')} `} </b>
                                     { s.t === 'move' ?
                                         `Robot moved to cordinate ${Math.ceil(s.x)} ${Math.ceil(s.y)}` :
                                         `Robot crashed!`

@@ -79,6 +79,13 @@ $width: 13px;
     .stats {
         height: 100vh;
         background-color: #61dafb;
-        overflow: scroll;
+        overflow-y: scroll;
+        overscroll-behavior-y: contain;
+        scroll-snap-type: y mandatory;
+        .stat {
+            &:last-child {
+                scroll-snap-align: end;
+            }
+        }
     }
 }
